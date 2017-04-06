@@ -1,0 +1,50 @@
+﻿@model CustomerSurveyWeb.Models.SurveyViewModel
+
+@{
+    ViewBag.Title = "Survey";
+}
+
+<div class="content">
+    @if (Model == null)
+    {
+        <div class="row">
+            <h2>Survey not found.</h2>
+        </div>
+
+        return;
+    }
+
+    <div class="row lead header">
+        <h2>@Model.Name</h2>
+    </div>
+
+    @{using (Html.BeginForm("Submit", "CustomerSurvey", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.Id)
+            foreach (var question in Model.Questions.OrderBy(q => q.QuestionOrder))
+            {
+                <div class="row question">
+                    @switch (question.QuestionType)
+                    {
+                        case CustomerSurveyWeb.Models.QuestionType.NumericScale:
+                            Html.RenderPartial("_QuestionNumericScalePartial", question);
+                            break;
+                        case CustomerSurveyWeb.Models.QuestionType.SingleChoice:
+                            Html.RenderPartial("_QuestionSingleChoicePartial", question);
+                            break;
+                        case CustomerSurveyWeb.Models.QuestionType.MultipleChoice:
+                            Html.RenderPartial("_QuestionMultipleChoicePartial", question);
+                            break;
+                        case CustomerSurveyWeb.Models.QuestionType.FreeText:
+                            Html.RenderPartial("_QuestionFreeTextPartial", question);
+                            break;
+                    }
+                </div>
+            }
+
+            <button type="submit" class="btn-lg">Done</button>
+        }
+    }
+</div>

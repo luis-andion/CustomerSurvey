@@ -1,0 +1,19 @@
+﻿@model CustomerSurveyWeb.Models.QuestionVm
+
+<div class="question-text">
+    @Model.QuestionOrder- @Model.Value
+</div>
+<div class="row">
+    <div class="col-sm-10">
+        @Model.Options.First().Description
+    </div>
+    <div class="col-sm-2">
+        @Model.Options.Last().Description
+    </div>
+</div>
+<div class="row">
+    @foreach (var option in @Model.Options)
+    {
+        <div class="col-sm-1"> <input type="radio" name="@Model.QuestionType.@Model.Id" value="@option.Id"/> @option.Value </div>
+    }
+</div>

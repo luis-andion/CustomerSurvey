@@ -1,0 +1,8 @@
+﻿@model CustomerSurveyWeb.Models.QuestionVm
+
+<div class="question-text">
+    @Model.QuestionOrder- @Model.Value
+</div>
+<div>
+    <textarea name="@Model.QuestionType.@Model.Id"></textarea>
+</div>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CustomerSurvey.Common.DTOs.SurveySubmissionDto>
+
+@{
+    ViewBag.Title = "Survey Submission";
+}
+<h2>Survey Submission</h2>
+
+@{ var qid = -1; }
+@foreach (var item in Model)
+{
+    if (qid != item.QuestionId)
+    {
+        qid = item.QuestionId;
+        <div class="question-text">
+            @item.QuestionValue
+        </div>
+    }
+
+    if (!string.IsNullOrEmpty(item.Answer))
+    {
+        <div>
+            @item.Answer
+        </div>
+    }
+    else
+    {
+        <div>
+            @item.OptionValue
+        </div>
+    }
+}
+
