@@ -10,7 +10,7 @@ namespace CustomerSurvey.Common.DTOs
     {
         public int QuestionId { get; set; }
         public string QuestionValue { get; set; }
-        public int OptionId { get; set; }
+        public int? OptionId { get; set; }
         public string OptionValue { get; set; }
         public string Answer { get; set; }
     }

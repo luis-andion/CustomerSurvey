@@ -4,7 +4,7 @@
     @Model.QuestionOrder- @Model.Value
 </div>
 <div>
-    @foreach (var option in Model.Options)
+    @foreach (var option in Model.Options.OrderBy(o => o.OptionOrder))
     {
         <input type="checkbox" name="@Model.QuestionType.@Model.Id" value="@option.Id"/>
         <label for="@option.Id">@option.Value</label>

@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="row">
-    @foreach (var option in @Model.Options)
+    @foreach (var option in @Model.Options.OrderBy(o => o.OptionOrder))
     {
         <div class="col-sm-1"> <input type="radio" name="@Model.QuestionType.@Model.Id" value="@option.Id"/> @option.Value </div>
     }

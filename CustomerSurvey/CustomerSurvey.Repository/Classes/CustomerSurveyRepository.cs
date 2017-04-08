@@ -56,27 +56,28 @@ namespace CustomerSurvey.Repository.Classes
 
         public List<SurveySubmissionDto> GetSurveySubmissions(int surveyId, DateTime date)
         {
-            // TODO: implement left join with Answers to include FreeText
-            /*
+            /* Translate this T-SQL query (left join) to Linq to entity query: 
+            http://www.progware.org/Blog/post/Left-Outer-Join-in-LINQ-to-Entities-(for-Entity-Framework-4).aspx
             select q.id, q.value, o.id, o.value, a.answer
             from Answer a
             left join [Option] o on a.oid = o.id
             inner join Question q on a.qid = q.id
             inner join Survey s on q.sid = s.id
             where s.id = 1 and
-            [date] = '2017-04-05 10:47:40.730'
+            [date] = '2017-04-08 12:01:32.060'
             */
 
             var submissions = (from a in Context.Answers.Where(x => DbFunctions.DiffMinutes(date, x.date) == 0)
-                               join o in Context.Options on a.oid equals o.id
+                               join o in Context.Options on a.oid equals o.id into details
+                               from od in details.DefaultIfEmpty()
                                join q in Context.Questions on a.qid equals q.id
                                join s in Context.Surveys on q.sid equals s.id
                                where s.id == surveyId
-                               orderby q.qorder, o.oporder
+                               orderby q.qorder, od.oporder
                                select new SurveySubmissionDto
                                {
-                                   OptionId = o.id,
-                                   OptionValue = o.value,
+                                   OptionId = od.id,
+                                   OptionValue = od.value,
                                    QuestionId = q.id,
                                    QuestionValue = q.value,
                                    Answer = a.answer1
